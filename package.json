@@ -1,0 +1,11 @@
+{
+  "name": "sust-club",
+  "version": "1.0.0",
+  "description": "AUSTCMS is a full-featured, digital platform designed to revolutionize how clubs at Ahsanullah University of Science and Technology (AUST) manage their operations. It addresses key issues like manual spreadsheet management, a lack of centralized websites, offline payments, and fragmented event management. AUSTCMS provides a seamless, automated solution that centralizes club management in one place, offering an efficient and streamlined experience for both admins and members.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
