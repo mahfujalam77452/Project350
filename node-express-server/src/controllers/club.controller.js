@@ -3,6 +3,7 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { clubService } = require('../services');
+const Club = require('../models/club.model');
 
 const createClub = catchAsync(async (req, res) => {
   const club = await clubService.createClub(req.body);
@@ -22,6 +23,12 @@ const getClubs = catchAsync(async (req, res) => {
 
   const result = await clubService.queryClubs(filter, options);
   res.send(result);
+});
+
+const getClubList = catchAsync(async (req, res) => {
+  const limit = req.query.limit || 100;
+  const clubs = await Club.find({}, { _id: 1, name: 1 }).limit(limit);
+  res.json(clubs);
 });
 
 const getClub = catchAsync(async (req, res) => {
@@ -111,15 +118,16 @@ module.exports = {
   createClub,
   getClubs,
   getClub,
+  getClubList,
+  getPendingMembers,
+  getClubMembers,
+  getClubModerators,
   updateClub,
   deleteClub,
   addAdminToClub,
   removeAdminFromClub,
   memberStatus,
   approveClubMember,
-  getPendingMembers,
-  getClubMembers,
-  getClubModerators,
   getClubByModeratorId,
   deleteClubMember,
   removeUserFromPendingList,

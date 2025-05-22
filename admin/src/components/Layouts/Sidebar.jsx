@@ -168,7 +168,7 @@ const Sidebar = () => {
                 <AnimateHeight duration={300} height={currentMenu === 'users' ? 'auto' : 0}>
                   <ul className="sub-menu text-gray-500">
                     <li>
-                      <NavLink to={`/profile/${currentUser?.studentId}`}>{t('profile')}</NavLink>
+                      <NavLink to={currentUser?.studentId ? `/profile/${currentUser.studentId}` : (localStorage.getItem('studentId') ? `/profile/${localStorage.getItem('studentId')}` : '/')}>{t('profile')}</NavLink>
                     </li>
                     <li>
                       <NavLink to="/user/settings">{t('account_settings')}</NavLink>

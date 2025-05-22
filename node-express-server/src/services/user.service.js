@@ -144,9 +144,20 @@ const changeUserPassword = async (userId, oldPassword, newPassword) => {
  */
 const getUserByStudentId = async (studentId) => {
   return User.findOne({ studentId })
-    .select('-password -role') // Exclude password and role
-    .populate('clubs', 'name logo')
-    .exec();
+    .populate('clubs', 'name description logo website');
+};
+
+/**
+ * Get user groups
+ * @param {ObjectId} userId
+ * @returns {Promise<Array>}
+ */
+const getUserClubs = async (userId) => {
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  return user.clubs;
 };
 
 module.exports = {
@@ -160,4 +171,5 @@ module.exports = {
   updateUserCV,
   changeUserPassword,
   getUserByStudentId,
+  getUserClubs,
 };

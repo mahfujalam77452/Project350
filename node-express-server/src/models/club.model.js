@@ -18,7 +18,7 @@ const clubSchema = mongoose.Schema(
     website: {
       type: String,
       required: true,
-      default: 'https://www.aust.edu',
+      default: 'https://www.sust.edu',
     },
     moderators: [
       {

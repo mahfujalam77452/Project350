@@ -17,6 +17,10 @@ const userSlice = createSlice({
       state.currentUser = action.payload.user;
       localStorage.setItem('accessToken', action.payload.tokens.access.token);
       localStorage.setItem('refreshToken', action.payload.tokens.refresh.token);
+      // Store studentId in localStorage for easier access
+      if (action.payload.user && action.payload.user.studentId) {
+        localStorage.setItem("studentId", action.payload.user.studentId);
+      }
       state.loading = false;
       state.error = null;
     },
@@ -31,6 +35,10 @@ const userSlice = createSlice({
       state.currentUser = action.payload.user;
       localStorage.setItem('accessToken', action.payload.tokens.access.token);
       localStorage.setItem('refreshToken', action.payload.tokens.refresh.token);
+      // Store studentId in localStorage for easier access
+      if (action.payload.user && action.payload.user.studentId) {
+        localStorage.setItem("studentId", action.payload.user.studentId);
+      }
       state.loading = false;
       state.error = null;
     },
@@ -59,6 +67,7 @@ const userSlice = createSlice({
       state.error = null;
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
+      localStorage.removeItem('studentId');
     },
     signOutUserFailure: (state, action) => {
       state.error = action.payload;

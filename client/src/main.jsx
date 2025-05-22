@@ -8,6 +8,7 @@ import { persistor, store } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import router from './router/index';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import App from './App';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
@@ -15,7 +16,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <PersistGate loading={null} persistor={persistor}>
                 <Suspense>
                 <GoogleOAuthProvider clientId="1034675800809-c8nrbpbldm9d7sjtobv4bm7hkd18k8jn.apps.googleusercontent.com">
-                    <RouterProvider router={router} />
+                    <App>
+                        <RouterProvider router={router} />
+                    </App>
                 </GoogleOAuthProvider>
                 </Suspense>
             </PersistGate>

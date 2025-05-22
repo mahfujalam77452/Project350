@@ -4,7 +4,7 @@ import IconTwitter from '../components/Icon/IconTwitter';
 import IconFacebook from '../components/Icon/IconFacebook';
 import IconGithub from '../components/Icon/IconGithub';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance';
 import { useState, useEffect } from 'react';
 import { setPageTitle } from '../redux/themeConfigSlice';
 import { useDispatch } from 'react-redux';
@@ -16,28 +16,46 @@ export default function Component() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_BASE;
+  
+  // Immediately redirect if studentId is undefined
+  useEffect(() => {
+    if (!studentId) {
+      console.error('Student ID is undefined, redirecting to home');
+      navigate('/');
+    }
+  }, [studentId, navigate]);
 
   useEffect(() => {
     dispatch(setPageTitle('Profile'));
+    
     const fetchUser = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/users/profile/${studentId}`);
-        if (res.data) {
-          setUser(res.data);
-        } else {
-          // If no user data is returned, navigate to home page
+      // Only attempt to fetch if studentId is defined
+      if (studentId) {
+        try {
+          const res = await axiosInstance.get(`/users/profile/${studentId}`);
+          if (res.data) {
+            setUser(res.data);
+          } else {
+            // If no user data is returned, navigate to home page
+            navigate('/');
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          // If there's an error (e.g., 404), navigate to home page
           navigate('/');
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-        // If there's an error (e.g., 404), navigate to home page
-        navigate('/');
-      } finally {
+      } else {
+        // If studentId is undefined, set loading to false and navigate to home
+        console.error('Student ID is undefined');
         setLoading(false);
+        navigate('/');
       }
     };
+    
     fetchUser();
-  }, [studentId, dispatch, navigate]);
+  }, [studentId, dispatch, navigate, API_URL]);
 
   if (loading) {
     return <div>Loading...</div>;

@@ -98,6 +98,16 @@ export const getUserByUsername = async (req, res, next) => {
   }
 };
 
+export const getUserGroups = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id).populate('groups');
+    if (!user) return next(errorHandler(404, 'User not found!'));
+    res.status(200).json(user.groups);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getAllUsers = async (req, res, next) => {
   const query = req.query.new;
   try {

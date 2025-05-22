@@ -6,6 +6,7 @@ const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 const sslcommerzRoute = require('./sslcommerz.route');
 const uploadRoute = require('./upload.route');
+const eventRoute = require('./event.route');
 const router = express.Router();
 
 // Add default routes
@@ -13,6 +14,7 @@ router.use('/auth', authRoute);
 router.use('/users', userRoute);
 router.use('/clubs', clubRoute);
 router.use('/sslcommerz', sslcommerzRoute);
+router.use('/events', eventRoute);
 router.use('/uploads', uploadRoute);
 
 // Add development routes only if in development mode

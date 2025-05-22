@@ -12,7 +12,6 @@ const Clubs = () => {
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
-    const API_BASE = "http://localhost:3000/api";
 
     useEffect(() => {
         dispatch(setPageTitle('Clubs'));
@@ -22,7 +21,7 @@ const Clubs = () => {
     const fetchClubs = async () => {
         setIsLoading(true);
         try {
-            const response = await api.get(`${API_BASE}/clubs?limit=${limit}&page=${page}`);
+            const response = await api.get(`/clubs?limit=${limit}&page=${page}`);
             const results = response?.data?.results;
     
             if (Array.isArray(results) && results.length === 0) {
@@ -44,7 +43,7 @@ const Clubs = () => {
 
     const handleJoinClub = async (clubId) => {
         try {
-            const response = await api.post(`${API_BASE}/clubs/${clubId}/status`, { userId: currentUser.id });
+            const response = await api.post(`/clubs/${clubId}/status`, { userId: currentUser.id });
             if (response.data.status === 'enrolled') {
                 Swal.fire('Already Enrolled', 'You are already a member of this club.', 'info');
             } else if (response.data.status === 'pending') {
@@ -116,7 +115,7 @@ const Clubs = () => {
                 if (paymentResponse.isConfirmed) {
                     try {
                         // Initiate payment and get transaction ID
-                        const response = await api.post('/sslcommerz/initiate', {
+                        const response = await api.post(`/sslcommerz/initiate`, {
                             userId: currentUser.id,
                             clubId,
                             userPhone: values[2],

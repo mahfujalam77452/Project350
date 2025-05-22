@@ -22,6 +22,7 @@ const VerifyEmail = lazy(() => import('../pages/verify-email'));
 const Dashboard = lazy(() => import('../pages/dashboard'));
 const JoinClub = lazy(() => import('../pages/joinClub'));
 const MyClubs = lazy(() => import('../pages/myclubs'));
+const Events = lazy(() => import('../pages/EventsPage'));
 const Settings = lazy(() => import('../pages/Settings'));
 const ChangePassword = lazy(() => import('../pages/changePassword'));
 const PaymentSuccess = lazy(() => import('../pages/payment-success'));
@@ -51,9 +52,10 @@ const routes = [
     children: [
       { path: 'dashboard', element: <JoinClub />},
       { path: 'join', element: <JoinClub />},
+      { path: 'events', element: <Events />}, // Add this line
       { path: 'clubs', element: <MyClubs />},
-      { path: 'user/settings', element: <Settings />},
-      { path: 'user/change-password', element: <ChangePassword />},
+      { path: 'settings', element: <Settings />},
+      { path: 'change-password', element: <ChangePassword />},
       { path: '/payment-success/:tranId', element: <PaymentSuccess />},
       { path: '/payment-failed/:tranId', element: <PaymentFailed />},
       { path: '/payment-cancelled/:tranId', element: <PaymentCancelled />},

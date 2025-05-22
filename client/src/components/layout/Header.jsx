@@ -414,7 +414,7 @@ const Header = () => {
                                 offset={[0, 8]}
                                 placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
                                 btnClassName="relative group block"
-                                button={<img className="w-9 h-9 rounded-full object-cover saturate-50 group-hover:saturate-100" src={currentUser?.avatar} alt="userProfile" />}
+                                button={<img className="w-9 h-9 rounded-full object-cover saturate-50 group-hover:saturate-100" src={currentUser?.avatar || '/assets/images/user-profile.jpeg'} alt="userProfile" />}
                             >
                                 <ul className="text-dark dark:text-white-dark !py-0 w-[230px] font-semibold dark:text-white-light/90">
                                     <li>
@@ -431,7 +431,7 @@ const Header = () => {
                                         </div>
                                     </li>
                                     <li>
-                                        <Link to={`/profile/${currentUser?.studentId}`} className="dark:hover:text-white">
+                                        <Link to={currentUser?.studentId ? `/profile/${currentUser.studentId}` : (localStorage.getItem('studentId') ? `/profile/${localStorage.getItem('studentId')}` : '/')} className="dark:hover:text-white">
                                             <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
                                             Profile
                                         </Link>

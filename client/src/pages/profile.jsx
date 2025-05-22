@@ -17,29 +17,50 @@ export default function Component() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const API_URL = import.meta.env.VITE_API_BASE;
+   
+    
+    // Immediately redirect if studentId is undefined
+    useEffect(() => {
+        if (!studentId) {
+            console.error('Student ID is undefined, redirecting to home');
+            navigate('/');
+        }
+    }, [studentId, navigate]);
 
     useEffect(() => {
-
+        // Set initial page title
+        dispatch(setPageTitle('Profile'));
+        
         const fetchUser = async () => {
-            try {
-                const res = await axios.get(`${API_URL}/users/profile/${studentId}`);
-                if (res.data) {
-                    setUser(res.data);
-                } else {
-                    // If no user data is returned, navigate to home page
+            // Only attempt to fetch if studentId is defined
+            if (studentId) {
+                try {
+                    const res = await axios.get(`${API_URL}/users/profile/${studentId}`);
+                    if (res.data) {
+                        setUser(res.data);
+                        // Update page title after user data is fetched
+                        dispatch(setPageTitle(`${res.data.name || 'Profile'}`));
+                    } else {
+                        // If no user data is returned, navigate to home page
+                        navigate('/');
+                    }
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                    // If there's an error (e.g., 404), navigate to home page
                     navigate('/');
+                } finally {
+                    setLoading(false);
                 }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-                // If there's an error (e.g., 404), navigate to home page
-                navigate('/');
-            } finally {
+            } else {
+                // If studentId is undefined, set loading to false and navigate to home
+                console.error('Student ID is undefined');
                 setLoading(false);
+                navigate('/');
             }
         };
+        
         fetchUser();
-        dispatch(setPageTitle(`${user?.name || 'Profile'}`));
-    }, [studentId, dispatch, navigate]);
+    }, [studentId, dispatch, navigate, API_URL]);
 
     if (loading) {
         return <div>Loading...</div>;

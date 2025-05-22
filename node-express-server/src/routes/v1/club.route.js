@@ -18,6 +18,10 @@ router
   .delete(auth('addClub'), validate(clubValidation.deleteClub), clubController.deleteClub)
 
 router
+  .route('/club/list')
+  .get(clubController.getClubList);
+
+router
   .route('/:clubId/status')
   .post(auth('getClubs'), validate(clubValidation.memberStatus), clubController.memberStatus);
 

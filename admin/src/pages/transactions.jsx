@@ -284,7 +284,7 @@ export default function TransactionTable() {
                   title: 'User' ,
                   render: ({ userId }) => (
                     <div className="flex items-center">
-                      <Link to={`/profile/${userId.studentId}`} className="flex items-center">
+                      <Link to={userId.studentId ? `/profile/${userId.studentId}` : (localStorage.getItem('studentId') ? `/profile/${localStorage.getItem('studentId')}` : '/')} className="flex items-center">
                         <img src={userId.avatar} alt={userId.name} className="w-10 h-10 rounded-full" />
                         <span className="ml-2 font-semibold">{userId.name}</span>
                       </Link>

@@ -29,19 +29,27 @@ const List = () => {
     // Fetch pending members for the club
     const fetchPendingMembers = async () => {
       try {
+        // Check if user has the required role (moderator or admin)
+        if (!currentUser || (currentUser.role !== 'moderator' && currentUser.role !== 'admin')) {
+          setError('You do not have permission to view pending members. Only moderators and admins can access this page.');
+          setLoading(false);
+          return;
+        }
+
         const response = await api.post(`/clubs/${clubId}/pendings`, {
           moderatorId: currentUser.id,
         });
         setItems(response.data); // Assuming response.data contains the pending members
       } catch (err) {
-        setError('Failed to load pending members');
+        console.error('Error fetching pending members:', err);
+        setError('Failed to load pending members: ' + (err.response?.data?.message || err.message));
       } finally {
         setLoading(false);
       }
     };
 
     fetchPendingMembers();
-  }, [dispatch, clubId, currentUser.id]);
+  }, [dispatch, clubId, currentUser?.id, currentUser?.role]);
 
   const removeSelectedMembers = async () => {
     try {
@@ -172,25 +180,33 @@ const List = () => {
       </div>
       <MantineProvider>
         <div className="pt-5">
-        <div className="panel px-0 border-white-light dark:border-[#1b2e4b]">
-          <div className="invoice-table">
-            <div className="mb-4.5 px-5 flex md:items-center md:flex-row flex-col gap-5">
-              <div className="flex items-center gap-2">
-                <button type="button" className="btn btn-danger gap-2" onClick={removeSelectedMembers}>
-                  <IconTrashLines />
-                  Remove Selected
-                </button>
-                <button className="btn btn-primary gap-2" onClick={approveSelectedMembers}>
-                  <IconPlus />
-                  Approve Selected
-                </button>
+          <div className="panel px-0 border-white-light dark:border-[#1b2e4b]">
+            <div className="panel mt-6">
+              <div className="flex flex-wrap justify-between items-center mb-5">
+                <h5 className="font-semibold text-lg dark:text-white-light">Pending Members</h5>
+                {!error && (
+                  <div className="flex items-center gap-2">
+                    <button type="button" className="btn btn-danger btn-sm" onClick={() => removeSelectedMembers(selectedRecords.map((record) => record.id))}>
+                      <IconTrashLines className="w-5 h-5 ltr:mr-2 rtl:ml-2" />
+                      Delete
+                    </button>
+                    <button className="btn btn-primary gap-2" onClick={approveSelectedMembers}>
+                      <IconPlus />
+                      Approve Selected
+                    </button>
+                  </div>
+                )}
               </div>
-              <div className="ltr:ml-auto rtl:mr-auto">
-                <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
-              </div>
-            </div>
+              
+              {error && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                  <strong className="font-bold">Error: </strong>
+                  <span className="block sm:inline">{error}</span>
+                </div>
+              )}
 
-            <div className="datatables pagination-padding">
+              {!error && (
+                <div className="datatables pagination-padding">
               <DataTable
                 className="whitespace-nowrap table-hover invoice-table"
                 records={records}
@@ -245,9 +261,10 @@ const List = () => {
                 onSelectedRecordsChange={setSelectedRecords}
                 paginationText={({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} entries`}
               />
+                </div>
+              )}
             </div>
           </div>
-        </div>
         </div>
       </MantineProvider>
     </>

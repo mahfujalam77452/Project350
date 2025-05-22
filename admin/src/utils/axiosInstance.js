@@ -10,6 +10,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem('accessToken');
+    console.log('Axios Interceptor - Token:', accessToken); // <-- Add this line
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -52,7 +53,11 @@ axiosInstance.interceptors.response.use(
           return axiosInstance(originalRequest);
         }
       } catch (refreshError) {
-        //console.error('Token refresh failed:', refreshError);
+        console.error('Token refresh failed:', refreshError); // <-- Add detailed logging
+        console.error('Refresh request details:', { 
+            url: `${API_BASE}/auth/refresh-tokens`,
+            refreshTokenUsed: localStorage.getItem('refreshToken') 
+        });
         return Promise.reject(refreshError);
       }
     }

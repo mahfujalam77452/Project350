@@ -21,6 +21,10 @@ const Test = lazy(() => import('../pages/test'));
 const ChangePassword = lazy(() => import('../pages/changePassword'));
 const Profile = lazy(() => import('../pages/profile'));
 const Transactions = lazy(() => import('../pages/transactions'));
+const EventsList = lazy(() => import('../pages/EventsList'));
+const AddEvent = lazy(() => import('../pages/AddEvent'));
+const EditEvent = lazy(() => import('../pages/EditEvent'));
+const SendMail = lazy(() => import('../pages/SendMail')); // Add SendMail import
 const routes = [
   // Public routes
   { path: '/login', element: <Login />, layout: 'blank' },
@@ -43,6 +47,10 @@ const routes = [
       { path: '/user/change-password', element: <ChangePassword /> },
       { path: '/profile/:studentId', element: <Profile /> },
       { path: '/transactions/:clubId', element: <Transactions /> },
+      { path: '/event', element: <EventsList /> },
+      { path: '/event/add', element: <AddEvent /> },
+      { path: '/event/edit/:eventId', element: <EditEvent /> },
+      { path: '/mailbox/send-mail', element: <SendMail /> }, // Mail sending page
     ],
   },
 

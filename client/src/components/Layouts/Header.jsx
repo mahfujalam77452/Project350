@@ -105,7 +105,7 @@ const Header = (props) => {
                                             <NavLink to="/dashboard">Dashboard</NavLink>
                                         </li>
                                         <li>
-                                            <NavLink to={`/profile/${currentUser?.studentId}`}>Profile</NavLink>
+                                            <NavLink to={currentUser?.studentId ? `/profile/${currentUser.studentId}` : (localStorage.getItem('studentId') ? `/profile/${localStorage.getItem('studentId')}` : '/')}>Profile</NavLink>
                                         </li>
                                     </>
                                 ) : (

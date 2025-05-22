@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleRTL, toggleTheme, toggleLocale, toggleMenu, toggleLayout, toggleAnimation, toggleNavbar, toggleSemidark } from './redux/themeConfigSlice';
 import { store } from './redux/store';
+import { loadUserFromLocalStorage } from './redux/user/userActions';
 
 function App({ children }) {
     const themeConfig = useSelector((state) => state.themeConfig);
     const dispatch = useDispatch();
 
     useEffect(() => {
+        // Load user data from localStorage on startup
+        dispatch(loadUserFromLocalStorage());
+        
         dispatch(toggleTheme(localStorage.getItem('theme') || themeConfig.theme));
         dispatch(toggleMenu(localStorage.getItem('menu') || themeConfig.menu));
         dispatch(toggleLayout(localStorage.getItem('layout') || themeConfig.layout));

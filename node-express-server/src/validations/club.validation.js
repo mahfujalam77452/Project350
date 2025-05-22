@@ -23,6 +23,12 @@ const getClubs = {
   }),
 };
 
+const getClubList = {
+  query: Joi.object().keys({
+    limit: Joi.number().integer().min(1).max(100).default(100),
+  }),
+};
+
 const getClub = {
   params: Joi.object().keys({
     clubId: Joi.string().custom(objectId),

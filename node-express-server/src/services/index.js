@@ -5,4 +5,4 @@ module.exports.userService = require('./user.service');
 module.exports.clubService = require('./club.service');
 module.exports.cloudinaryService = require('./cloudinary.service');
 module.exports.uploadService = require('./upload.service');
-
+module.exports.eventService = require('./event.service');
