@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'; // Add useEffect
 import { useNavigate } from 'react-router-dom';
 
 // Base URL for the API (adjust if necessary)
-const API_BASE_URL = 'http://localhost:3000/v1'; // From your .env file
+const API_BASE_URL = 'https://backend350.vercel.app/v1'; // From your .env file
 
 const AddEvent = () => {
     const [title, setTitle] = useState('');

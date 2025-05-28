@@ -21,7 +21,7 @@ export const loadUserFromLocalStorage = () => async (dispatch) => {
         return;
       }
       
-      const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000/v1";
+      const API_BASE = import.meta.env.VITE_API_BASE || "https://backend350.vercel.app/v1";
       
       // Make a request to get the user data by ID
       const res = await axios.get(`${API_BASE}/users/profile/${userId}`, {

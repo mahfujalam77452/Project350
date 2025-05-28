@@ -31,11 +31,11 @@ const Clubs = () => {
     try {
       let apiEndpoint;
       if (currentUser.role === 'admin') {
-        apiEndpoint = `/clubs?limit=${limit}&page=${page}`;
+        apiEndpoint = `clubs?limit=${limit}&page=${page}`;
       } else {
-        apiEndpoint = `/clubs?limit=${limit}&page=${page}&userId=${currentUser.id}`;
+        apiEndpoint = `clubs?limit=${limit}&page=${page}&userId=${currentUser.id}`;
       }
-      const response = await api.get(`${apiEndpoint}`);
+      const response = await api.get(apiEndpoint);
       if (response.data.results.length === 0) {
         Swal.fire('No Clubs Found', 'There are no clubs associated with this admin.', 'info');
       } else {
@@ -51,7 +51,7 @@ const Clubs = () => {
 
   const handleDeleteClub = async (clubId) => {
     try {
-      await api.delete(`/clubs/${clubId}`);
+      await api.delete(`clubs/${clubId}`);
       fetchClubs(); // Refresh the clubs list after deletion
     } catch (error) {
       console.error('Error deleting club:', error);

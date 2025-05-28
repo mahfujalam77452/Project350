@@ -5,7 +5,7 @@ import { BuildingLibraryIcon } from '@heroicons/react/24/outline';
 import Swal from 'sweetalert2';
 
 // Base URL for the API (adjust if necessary)
-const API_BASE_URL = import.meta.env.VITE_API_BASE || 'http://localhost:3000/v1'; 
+const API_BASE_URL = import.meta.env.VITE_API_BASE || 'https://backend350.vercel.app/v1';
 
 // Helper to format date and time
 const formatDate = (isoDate) => {

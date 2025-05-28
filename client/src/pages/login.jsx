@@ -25,7 +25,7 @@ const LoginCover = () => {
   const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const API_BASE = "http://localhost:3000/v1";
+  const API_BASE = "https://backend350.vercel.app/v1";
   console.log(API_BASE)
   useEffect(() => {
     dispatch(setPageTitle('Login'));

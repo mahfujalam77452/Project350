@@ -18,7 +18,7 @@ const AccountSetting = () => {
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
   const { loading } = useSelector((state) => state.user);
-  const API_BASE = "http://localhost:3000/v1"
+  const API_BASE = "https://backend350.vercel.app/v1"
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setPageTitle('Account Setting'));

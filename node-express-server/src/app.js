@@ -20,13 +20,48 @@ const app = express();
 
 app.use(cookieParser());
 
+// Simple CORS middleware that allows all origins
+app.use((req, res, next) => {
+  const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://localhost:3000',
+    'http://localhost:8080',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:5174'
+  ];
+  
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-access-token');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  
+  // Handle preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  
+  console.log('CORS Headers Set:', {
+    'Access-Control-Allow-Origin': res.getHeader('Access-Control-Allow-Origin'),
+    'Access-Control-Allow-Methods': res.getHeader('Access-Control-Allow-Methods'),
+    'Access-Control-Allow-Headers': res.getHeader('Access-Control-Allow-Headers'),
+    'Access-Control-Allow-Credentials': res.getHeader('Access-Control-Allow-Credentials')
+  });
+  
+  next();
+});
+
 if (config.env !== 'test') {
   app.use(morgan.successHandler);
   app.use(morgan.errorHandler);
 }
 
 // set security HTTP headers
-app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+app.use(helmet());
 
 // parse json request body
 app.use(express.json());
@@ -40,14 +75,6 @@ app.use(mongoSanitize());
 
 // gzip compression
 app.use(compression());
-
-// enable cors
-const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:5174'],
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
 
 // jwt authentication
 app.use(passport.initialize());

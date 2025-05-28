@@ -16,7 +16,7 @@ export default function Component() {
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const API_URL = import.meta.env.VITE_API_BASE;
+    const API_URL = import.meta.env.VITE_API_BASE || 'https://backend350.vercel.app/v1';
    
     
     // Immediately redirect if studentId is undefined

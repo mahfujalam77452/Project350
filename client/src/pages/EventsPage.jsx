@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE || 'https://backend350.vercel.app';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { EyeIcon, EyeSlashIcon, CalendarIcon, ClockIcon, MapPinIcon, BuildingLibraryIcon } from '@heroicons/react/24/outline';

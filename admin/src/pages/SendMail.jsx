@@ -67,7 +67,7 @@ const SendMail = () => {
   }, []);
 
   // Base URL for API requests
-  const API_BASE_URL = 'http://localhost:3000/v1';
+  const API_BASE_URL = 'https://backend350.vercel.app/v1';
   const token = localStorage.getItem('accessToken');
 
   // Update recipient count when selection changes

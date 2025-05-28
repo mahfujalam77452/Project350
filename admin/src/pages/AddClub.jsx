@@ -15,7 +15,7 @@ const AddClub = () => {
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [website, setWebsite] = useState('');
+  const [website, setWebsite] = useState('https://www.sust.edu/179/cultural/109');
   const [clubLogo, setClubLogo] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const maxNumber = 1;
@@ -123,7 +123,7 @@ const AddClub = () => {
                   className="form-input w-full"
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
-                  required
+              
                 />
               </div>
             </div>
