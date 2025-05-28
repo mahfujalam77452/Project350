@@ -56,12 +56,16 @@ const EventsPage = () => {
       let response = await axios.get(`${API_BASE_URL}/events/all`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
+      const eventClubIds = [...new Set(response.data.map((event) => event.clubId))];
       if (!showAllEvents && user) {
-        response.data = response.data.filter((item) => user.clubs.includes(item.clubId));
+        console.log(response.data);
+        const userClubIds = user.clubs.map((club) => club.id);
+        response.data = response.data.filter((item) => userClubIds.includes(item.clubId));
+        console.log(user.clubs)
+        
       }
 
-      const eventClubIds = [...new Set(response.data.map((event) => event.clubId))];
+      
       const clubsResponse = await axios.get(`${API_BASE_URL}/clubs/club/list`, {
         headers: { Authorization: `Bearer ${token}` },
       });

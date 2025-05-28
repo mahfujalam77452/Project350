@@ -25,4 +25,8 @@ router
   .route('/:userId/clubs')
   .get(auth(), userController.getUserClubs);
 
+router
+  .route('/:userId/change-password')
+  .patch(auth(), userController.changePassword);
+
 module.exports = router;

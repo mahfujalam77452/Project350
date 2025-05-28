@@ -45,6 +45,11 @@ const routes = [
   { path: '/verify-email', element: <VerifyEmail />, layout: 'blank'},
 
   //{ path: '/auth/google/callback', element: <GoogleCallback />},
+  // Payment routes (public)
+  { path: '/payment-success/:tranId', element: <PaymentSuccess />, layout: 'blank' },
+  { path: '/payment-failed/:tranId', element: <PaymentFailed />, layout: 'blank' },
+  { path: '/payment-cancelled/:tranId', element: <PaymentCancelled />, layout: 'blank' },
+
   // Private routes
   {
     path: '/',
@@ -52,19 +57,16 @@ const routes = [
     children: [
       { path: 'dashboard', element: <JoinClub />},
       { path: 'join', element: <JoinClub />},
-      { path: 'events', element: <Events />}, // Add this line
+      { path: 'events', element: <Events />},
       { path: 'clubs', element: <MyClubs />},
-      { path: 'settings', element: <Settings />},
-      { path: 'change-password', element: <ChangePassword />},
-      { path: '/payment-success/:tranId', element: <PaymentSuccess />},
-      { path: '/payment-failed/:tranId', element: <PaymentFailed />},
-      { path: '/payment-cancelled/:tranId', element: <PaymentCancelled />},
-
+      { path: 'user/settings', element: <Settings />},
+      { path: 'user/change-password', element: <ChangePassword />},
     ],
   },
 
   // Catch-all route for 404 errors
   { path: '*', element: <Error404 />, layout: 'blank' },
+ 
 ];
 
 export { routes };

@@ -7,7 +7,6 @@ const { v4: uuidv4 } = require('uuid');
 const Club = require('../models/club.model');
 
 const createOrder = async (user, club) => {
-
    const tran_id = uuidv4();
 
   try {
@@ -22,10 +21,12 @@ const createOrder = async (user, club) => {
       clubId: club.id,
     });
 
-    //console.log('Payment:', payment);
-
     // Save the payment object to the database
     await payment.save();
+    
+    // Log the payment data for debugging
+    console.log('Payment data saved with ID:', payment._id);
+    console.log('Success URL:', `${config.serverURL}/v1/sslcommerz/success/${tran_id}`);
 
     // Payment data for SSLCommerz
     const paymentData = {
@@ -39,6 +40,12 @@ const createOrder = async (user, club) => {
       product_name: club.name,
       product_category: 'Club',
       product_profile: 'general',
+      // Disable EMI options
+      emi_option: 0,
+      emi_max_inst_option: 0,
+      emi_selected_inst: 0,
+      emi_allow_only: 0,
+      // Customer information
       cus_name: user.name,
       cus_email: user.email,
       cus_add1: 'Dhaka',
@@ -61,15 +68,9 @@ const createOrder = async (user, club) => {
   }
 };
 
-/**
- * init SSLCommerz payment
- * @params {Object} order
- */
-
 const initPayment = async (user, club) => {
   try {
     const paymentData = await createOrder(user, club);
-    //console.log('Payment Data:', paymentData);
 
     const sslcz = new SSLCommerzPayment(
       config.sslcommerz.storeId,
@@ -78,7 +79,6 @@ const initPayment = async (user, club) => {
     );
 
     const apiResponse = await sslcz.init(paymentData);
-    //console.log('API Response:', apiResponse);
 
     if (!apiResponse || !apiResponse.GatewayPageURL) {
       throw new ApiError(httpStatus.SERVICE_UNAVAILABLE, 'Failed to get payment gateway URL');

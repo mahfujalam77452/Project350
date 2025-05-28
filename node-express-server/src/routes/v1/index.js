@@ -7,6 +7,7 @@ const config = require('../../config/config');
 const sslcommerzRoute = require('./sslcommerz.route');
 const uploadRoute = require('./upload.route');
 const eventRoute = require('./event.route');
+const mailRoute = require('./mail.route');
 const router = express.Router();
 
 // Add default routes
@@ -16,6 +17,7 @@ router.use('/clubs', clubRoute);
 router.use('/sslcommerz', sslcommerzRoute);
 router.use('/events', eventRoute);
 router.use('/uploads', uploadRoute);
+router.use('/mail', mailRoute);
 
 // Add development routes only if in development mode
 if (config.env === 'development') {

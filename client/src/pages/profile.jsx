@@ -28,24 +28,51 @@ export default function Component() {
     }, [studentId, navigate]);
 
     useEffect(() => {
+        console.log('Profile component mounted with studentId:', studentId);
+        console.log('API_URL:', API_URL);
+        
         // Set initial page title
         dispatch(setPageTitle('Profile'));
         
         const fetchUser = async () => {
             // Only attempt to fetch if studentId is defined
             if (studentId) {
+                console.log('Attempting to fetch user with studentId:', studentId);
                 try {
+                    console.log('Making API call to:', `${API_URL}/users/profile/${studentId}`);
                     const res = await axios.get(`${API_URL}/users/profile/${studentId}`);
+                    console.log('API Response:', {
+                        status: res.status,
+                        statusText: res.statusText,
+                        headers: res.headers,
+                        data: res.data
+                    });
+                    
                     if (res.data) {
+                        console.log('User data received:', res.data);
                         setUser(res.data);
                         // Update page title after user data is fetched
                         dispatch(setPageTitle(`${res.data.name || 'Profile'}`));
                     } else {
+                        console.error('No data received in API response');
                         // If no user data is returned, navigate to home page
                         navigate('/');
                     }
                 } catch (error) {
-                    console.error('Error fetching user data:', error);
+                    console.error('Error fetching user data:', {
+                        message: error.message,
+                        response: error.response ? {
+                            status: error.response.status,
+                            statusText: error.response.statusText,
+                            data: error.response.data
+                        } : 'No response',
+                        request: error.request ? 'Request was made but no response received' : 'No request was made',
+                        config: {
+                            url: error.config?.url,
+                            method: error.config?.method,
+                            headers: error.config?.headers
+                        }
+                    });
                     // If there's an error (e.g., 404), navigate to home page
                     navigate('/');
                 } finally {

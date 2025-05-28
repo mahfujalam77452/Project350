@@ -91,4 +91,7 @@ export const {
   signOutUserStart,
 } = userSlice.actions;
 
+// Selectors
+export const selectCurrentUser = (state) => state.user.currentUser;
+
 export default userSlice.reducer;

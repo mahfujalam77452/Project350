@@ -1,14 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-const plugin = require("tailwindcss/plugin");
-const rotateX = plugin(function ({ addUtilities }) {
-  addUtilities({
-    ".rotate-y-180": {
-      transform: "rotateY(180deg)",
-    },
-  });
-});
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+module.exports = {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}"
+  ],
   darkMode: "class",
   theme: {
     container: {
@@ -50,12 +45,12 @@ export default {
         dark: {
           DEFAULT: "#3b3f5c",
           light: "#eaeaec",
-          "dark-light": "rgba(59,63,92,.15)",
+          dark: "#0e1726",
         },
         black: {
           DEFAULT: "#0e1726",
           light: "#e3e4eb",
-          "dark-light": "rgba(14,23,38,.15)",
+          dark: "#d3d3d3",
         },
         white: {
           DEFAULT: "#ffffff",
@@ -64,14 +59,20 @@ export default {
         },
       },
       fontFamily: {
-        nunito: ["Nunito", "sans-serif"],
+        nunito: ["var(--font-nunito)"],
       },
       spacing: {
         4.5: "18px",
       },
       boxShadow: {
-        "3xl":
-          "0 2px 2px rgb(224 230 237 / 46%), 1px 6px 7px rgb(224 230 237 / 46%)",
+        '3xl': '0 2px 2px rgb(224 230 237 / 30%)',
+        'primary': '0 3px 10px 0 rgb(27 169 76 / 5%)',
+        'auth': '0 0 2px 0 rgb(145 158 171 / 20%), 0 12px 24px -4px rgb(145 158 171 / 12%)',
+        'profile-page': 'rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px',
+        'event-card': '0 0 2px 0 rgba(0, 0, 0, 0.1), 0 2px 12px 0 rgba(0, 0, 0, 0.1)',
+        'table': 'rgba(67, 90, 111, 0.3) 0px 0px 1px, rgba(67, 90, 111, 0.47) 0px 8px 10px -4px',
+        'table-2': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'table-3': '0 0 0 1px #e2e8f0',
       },
       typography: ({ theme }) => ({
         DEFAULT: {
@@ -93,10 +94,8 @@ export default {
     },
   },
   plugins: [
-    require("@tailwindcss/forms")({
-      strategy: "class",
-    }),
+    require("@tailwindcss/forms"),
     require("@tailwindcss/typography"),
-    rotateX,
+    require("tailwind-scrollbar")({ nocompatible: true }),
   ],
 };

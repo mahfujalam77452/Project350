@@ -28,7 +28,7 @@ const ChangePassword = () => {
     try {
       await api.patch(`/users/${currentUser.id}/change-password`, {
         oldPassword,
-        newPassword,
+        newPassword
       });
 
       Swal.fire('Success', 'Password changed successfully', 'success');

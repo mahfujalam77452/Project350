@@ -137,14 +137,21 @@ const changeUserPassword = async (userId, oldPassword, newPassword) => {
   return user;
 };
 
+const mongoose = require('mongoose');
+
 /**
- * Get user by student ID
- * @param {string} studentId
+ * Get user by student ID or MongoDB ObjectId
+ * @param {string} studentId - The student ID or MongoDB ObjectId
  * @returns {Promise<User>}
  */
 const getUserByStudentId = async (studentId) => {
-  return User.findOne({ studentId })
-    .populate('clubs', 'name description logo website');
+  // Check if the provided ID is a valid MongoDB ObjectId
+  if (mongoose.Types.ObjectId.isValid(studentId) && new mongoose.Types.ObjectId(studentId).toString() === studentId) {
+    // If it's a valid ObjectId, search by _id
+    return User.findById(studentId).populate('clubs', 'name description logo website');
+  }
+  // Otherwise, search by studentId
+  return User.findOne({ studentId }).populate('clubs', 'name description logo website');
 };
 
 /**
