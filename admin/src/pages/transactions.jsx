@@ -281,30 +281,36 @@ export default function TransactionTable() {
               columns={[
                 { 
                   accessor: 'userId', 
-                  title: 'User' ,
-                  render: ({ userId }) => (
-                    <div className="flex items-center">
-                      <Link to={userId.studentId ? `/profile/${userId.studentId}` : (localStorage.getItem('studentId') ? `/profile/${localStorage.getItem('studentId')}` : '/')} className="flex items-center">
-                        <img src={userId.avatar} alt={userId.name} className="w-10 h-10 rounded-full" />
-                        <span className="ml-2 font-semibold">{userId.name}</span>
-                      </Link>
-                    </div>
-                  )
+                  title: 'User',
+                  render: ({ userId }) => {
+                    if (!userId) return <span>No user data</span>;
+                    return (
+                      <div className="flex items-center">
+                        <Link to={userId.studentId ? `/profile/${userId.studentId}` : (localStorage.getItem('studentId') ? `/profile/${localStorage.getItem('studentId')}` : '/')} className="flex items-center">
+                          {userId.avatar && <img src={userId.avatar} alt={userId.name || 'User'} className="w-10 h-10 rounded-full" />}
+                          {userId.name && <span className="ml-2 font-semibold">{userId.name}</span>}
+                        </Link>
+                      </div>
+                    );
+                  }
                 },
                 { 
                   accessor: 'userId', 
                   title: 'Student ID',
-                  render: ({ userId }) => (
-                    <Tooltip key={userId.studentId} label={visibleIds[userId.studentId] ? "Hide full ID" : "Show full ID"}>
-                      <button 
-                        onClick={() => toggleIdVisibility(userId.studentId)}
-                        className="flex items-center text-blue-500 hover:text-blue-700"
-                      >
-                        {visibleIds[userId.studentId] ? userId.studentId : truncateId(userId.studentId)}
-                        {visibleIds[userId.studentId] ? <FiEyeOff className="ml-2" /> : <FiEye className="ml-2" />}
-                      </button>
-                    </Tooltip>
-                  )
+                  render: ({ userId }) => {
+                    if (!userId || !userId.studentId) return <span>N/A</span>;
+                    return (
+                      <Tooltip key={userId.studentId} label={visibleIds[userId.studentId] ? "Hide full ID" : "Show full ID"}>
+                        <button 
+                          onClick={() => userId?.studentId && toggleIdVisibility(userId.studentId)}
+                          className="flex items-center text-blue-500 hover:text-blue-700"
+                        >
+                          {visibleIds[userId.studentId] ? userId.studentId : truncateId(userId.studentId)}
+                          {visibleIds[userId.studentId] ? <FiEyeOff className="ml-2" /> : <FiEye className="ml-2" />}
+                        </button>
+                      </Tooltip>
+                    );
+                  }
                 },
                 { accessor: 'userPhone', title: 'Phone' },
                 { 
